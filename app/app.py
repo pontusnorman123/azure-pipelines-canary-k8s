@@ -4,10 +4,12 @@ from random import randrange
 from flask import Flask
 from prometheus_client import start_http_server, Counter
 
+
+
 app = Flask('sampleapp')
 c = Counter('requests', 'Number of requests served, by custom_status', ['custom_status'])
 
-success_rate = 200
+success_rate = 20
 
 @app.route('/')
 def hello():
@@ -20,3 +22,5 @@ def hello():
 
 start_http_server(8000)
 app.run(host = '0.0.0.0', port = 8080)
+
+app.run(host='0.0.0.0', port=8080)
