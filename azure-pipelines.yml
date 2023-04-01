@@ -37,6 +37,7 @@ stages:
 
     - publish: misc
       artifact: misc
+
 - stage: DeployCanary
   displayName: Deploy canary
   dependsOn: Build
@@ -78,6 +79,7 @@ stages:
               action: 'deploy'
               manifests: |
                 $(Pipeline.Workspace)/misc/*
+
 - stage: PromoteRejectCanary
   displayName: Promote or Reject canary
   dependsOn: DeployCanary
@@ -102,6 +104,7 @@ stages:
               manifests: '$(Pipeline.Workspace)/manifests/*'
               containers: '$(containerRegistry)/$(imageRepository):$(tag)'
               imagePullSecrets: '$(imagePullSecret)'
+
 - stage: RejectCanary
   displayName: Reject canary
   dependsOn: PromoteRejectCanary

@@ -3,13 +3,14 @@
 from random import randrange
 from flask import Flask
 from prometheus_client import start_http_server, Counter
-
+from prometheus_client import Counter, generate_latest, CONTENT_TYPE_LATEST
+from flask import Response
 
 
 app = Flask('sampleapp')
 c = Counter('requests', 'Number of requests served, by custom_status', ['custom_status'])
 
-success_rate = 20
+success_rate = 10
 
 @app.route('/')
 def hello():
@@ -20,7 +21,9 @@ def hello():
         c.labels(custom_status = 'good').inc()
         return "Hello World!\n", 200
 
-start_http_server(8000)
-app.run(host = '0.0.0.0', port = 8080)
+
+@app.route('/Metric')
+def metrics():
+    return Response(generate_latest(), mimetype=CONTENT_TYPE_LATEST)
 
 app.run(host='0.0.0.0', port=8080)
