@@ -1,8 +1,11 @@
-apiVersion: apps/v1beta1
+apiVersion: apps/v1
 kind: Deployment
 metadata:
   name: fortio
 spec:
+  selector:
+    matchLabels:
+      app: fortio
   replicas: 1
   template:
     metadata:
@@ -18,3 +21,4 @@ spec:
           name: http-fortio
         - containerPort: 8079
           name: grpc-ping
+
